@@ -9,13 +9,7 @@ import { RecipeService } from './recipe.service';
   providers: [RecipeService],
 })
 export class RecipesComponent {
-  selectedRecipe: Recipe | any;
+  constructor() {}
 
-  constructor(private recipeService: RecipeService) {}
-
-  ngOnInit() {
-    this.recipeService.recipeSelected.subscribe((recipe: Recipe) => {
-      this.selectedRecipe = recipe;
-    });
-  }
+  ngOnInit() {}
 }
