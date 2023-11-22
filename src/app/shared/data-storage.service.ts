@@ -2,31 +2,32 @@ import { RecipeService } from './../recipes/recipe.service';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpHeaders,
-  HttpParams,
+  // HttpHeaders,
+  // HttpParams,
   HttpRequest,
 } from '@angular/common/http';
 import { Recipe } from '../recipes/recipe.model';
 import { map } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+// import * as fromApp from '../store/app.reducers';
+// import { Store } from '@ngrx/store';
 
 @Injectable()
 export class DataStorageService {
   urlDB: string =
     'https://ng-recipe-book-74bde-default-rtdb.europe-west1.firebasedatabase.app/';
 
-  constructor(
-    private http: HttpClient,
-    private recipeService: RecipeService,
-    private authService: AuthService
-  ) {}
+  constructor(private http: HttpClient, private recipeService: RecipeService) {}
 
   storeRecipes() {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      'Bearer asfabindsawo'
-    );
+    // const token = this.store.select('auth').pipe(
+    //   map((data) => {
+    //     return data.token;
+    //   })
+    // );
+    // const headers = new HttpHeaders().set(
+    //   'Authorization',
+    //   'Bearer asfabindsawo'
+    // );
 
     // return this.http.put(
     //   this.urlDB + 'recipes.json',
@@ -53,7 +54,7 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    const token = this.authService.getToken();
+    // const token = this.authService.getToken();
 
     // this.http
     //   .get(this.urlDB + 'recipes.json?auth=' + token, {
