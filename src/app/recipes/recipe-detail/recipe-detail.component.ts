@@ -1,10 +1,10 @@
 import { Store } from '@ngrx/store';
-import { RecipeService } from '../recipe.service';
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from '../recipe.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
-import * as fromApp from '../../store/app.reducers';
+import { Observable, take } from 'rxjs';
+import * as fromRecipes from '../store/recipe.reducers';
+import * as RecipeActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -12,20 +12,26 @@ import * as fromApp from '../../store/app.reducers';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: Recipe | any;
+  recipeState!: Observable<fromRecipes.RecipeState>;
   id: number | any;
 
   constructor(
-    private recipeService: RecipeService,
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromRecipes.FeatureState>
   ) {}
 
   onAddToShoppingList() {
-    this.store.dispatch(
-      new ShoppingListActions.AddIngredients(this.recipe.ingredients)
-    );
+    this.store
+      .select('recipes')
+      .pipe(take(1))
+      .subscribe((recipeState: fromRecipes.RecipeState) => {
+        this.store.dispatch(
+          new ShoppingListActions.AddIngredients(
+            recipeState.recipes[this.id].ingredients
+          )
+        );
+      });
 
     this.router.navigate(['shopping-list']);
   }
@@ -33,11 +39,11 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
-      this.recipe = this.recipeService.getRecipeById(this.id);
+      this.recipeState = this.store.select('recipes');
     });
   }
 
   onDelete() {
-    this.recipeService.deleteRecipe(this.id);
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
   }
 }

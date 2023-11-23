@@ -1,3 +1,4 @@
+import { EffectsModule } from '@ngrx/effects';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +12,10 @@ import { RecipesRoutingModule } from './recipes-routing.module';
 import { ShortenPipe } from '../shorten.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { recipeReducer } from './store/recipe.reducers';
+import { RecipeEffects } from './store/recipe.effects';
+import { AuthGuard } from '../auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     RecipesRoutingModule,
     SharedModule,
+    StoreModule.forFeature('recipes', recipeReducer),
+    EffectsModule.forFeature([RecipeEffects]),
   ],
-  providers: [],
+  providers: [AuthGuard],
 })
 export class RecipesModule {}

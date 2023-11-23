@@ -9,6 +9,7 @@
         let ingredient of (shoppingListState | async)?.ingredients;
         let i = index
       "
+      [@list1]
       (click)="onEditItem(i)"
     >
       {{ ingredient.name }} ({{ ingredient.amount }})
