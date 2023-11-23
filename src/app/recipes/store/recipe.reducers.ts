@@ -2,7 +2,6 @@ import { Ingredient } from 'src/app/shared/Ingredient.model';
 import { Recipe } from '../recipe.model';
 import * as RecipeActions from './recipe.actions';
 import * as fromApp from '../../store/app.reducers';
-import { Store } from '@ngrx/store';
 
 export interface FeatureState extends fromApp.AppState {
   recipes: RecipeState;
